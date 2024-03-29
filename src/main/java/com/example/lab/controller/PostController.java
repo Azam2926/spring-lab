@@ -7,6 +7,7 @@ import com.example.lab.payload.response.PostDto;
 import com.example.lab.repository.PostCustomRepo;
 import com.example.lab.repository.PostRepository;
 import com.example.lab.service.PostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -14,17 +15,12 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/posts")
+@RequiredArgsConstructor
 public class PostController {
 
-    private final PostRepository repository;
-    private final PostService service;
-    private final PostCustomRepo customRepo;
-
-    public PostController(PostRepository repository, PostService service, PostCustomRepo customRepo) {
-        this.repository = repository;
-        this.service = service;
-        this.customRepo = customRepo;
-    }
+    final PostRepository repository;
+    final PostService service;
+    final PostCustomRepo customRepo;
 
     @GetMapping
     public Page<Post> all(Pageable pageable) {
@@ -48,6 +44,11 @@ public class PostController {
     @GetMapping("{id}")
     public Post one(@PathVariable Long id) {
         return service.getById(id);
+    }
+
+    @GetMapping("count")
+    public Long count() {
+        return service.count();
     }
 
 }

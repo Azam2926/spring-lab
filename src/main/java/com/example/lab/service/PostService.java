@@ -7,4 +7,6 @@ public interface PostService {
     Post save(PostCreateRequest requested);
 
     Post getById(Long id);
+
+    Long count();
 }

@@ -4,8 +4,10 @@ import com.example.lab.model.Comment;
 import com.example.lab.model.Post;
 import com.example.lab.payload.request.PostCreateRequest;
 import com.example.lab.repository.CommentRepository;
+import com.example.lab.repository.CustomPostRepository;
 import com.example.lab.repository.PostRepository;
 import com.example.lab.service.PostService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
@@ -13,19 +15,15 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     final PostRepository repository;
     final CommentRepository commentRepository;
+    final CustomPostRepository customPostRepository;
 
-    public PostServiceImpl(PostRepository repository, CommentRepository commentRepository) {
-        this.repository = repository;
-        this.commentRepository = commentRepository;
-    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
@@ -55,5 +53,11 @@ public class PostServiceImpl implements PostService {
         Post post = repository.findById(id).orElse(new Post());
 
         return post;
+    }
+
+    @Override
+    public Long count() {
+        customPostRepository.countPostComments();
+        return customPostRepository.count();
     }
 }
