@@ -18,6 +18,11 @@
     </properties>
     <dependencies>
 
+             <properties>
+  <sonar.organization>azam2926</sonar.organization>
+  <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+</properties>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
